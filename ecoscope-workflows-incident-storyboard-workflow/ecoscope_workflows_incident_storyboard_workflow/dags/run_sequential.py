@@ -148,6 +148,7 @@ def main(params: dict[str, Any], validate_params_schema: bool = True):
             client=er_client,
             time_range=time_range,
             max_depth=5,
+            include_icons=True,
             **(params.get("incident_events") or {}),
         )
         .call()

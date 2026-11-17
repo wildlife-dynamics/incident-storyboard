@@ -92,21 +92,6 @@
       "required": [],
       "title": "Group by"
     },
-    "incident_events": {
-      "additionalProperties": false,
-      "properties": {
-        "include_icons": {
-          "default": false,
-          "description": "Embed each event type's EarthRanger icon in an `icon` column (one download per icon).",
-          "ecoscope:advanced": true,
-          "title": "Include Icons",
-          "type": "boolean"
-        }
-      },
-      "required": [],
-      "type": "object",
-      "title": ""
-    },
     "storyboards": {
       "additionalProperties": false,
       "properties": {
@@ -259,7 +244,6 @@
       "er_client",
       "time_range",
       "groupers",
-      "incident_events",
       "storyboards"
     ]
   },

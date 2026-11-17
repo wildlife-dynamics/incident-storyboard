@@ -14,7 +14,5 @@ time_range:
     utc: "+03:00"
 groupers:
   groupers: []
-incident_events:
-  include_icons: true
 storyboards:
   merge_window_hours: 12
