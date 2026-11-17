@@ -1,4 +1,6 @@
 wd-all-incidents:
+  mock_io_overrides:
+    ecoscope.platform.tasks.io.get_incident_events: mock-io/get-incident-events.example-return.parquet
   name: Wildlife Dynamics, all incidents
   description: >-
     Four incidents (8 events): mixed event types, one incident with no located
@@ -19,6 +21,8 @@ wd-all-incidents:
     storyboards: {merge_window_hours: 12}
 
 wd-by-incident:
+  mock_io_overrides:
+    ecoscope.platform.tasks.io.get_incident_events: mock-io/get-incident-events.example-return.parquet
   name: Wildlife Dynamics, one view per incident
   description: Same data grouped by incident; colours must match across views.
   params:
