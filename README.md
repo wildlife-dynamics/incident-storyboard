@@ -11,7 +11,7 @@ It is one output of the incident report, split out on its own so it can be combi
 | Incident storyboards (widget) | One row per incident, newest first. Same-type events close in time share one tile (×N). Unlocated events are marked "no location". Long type names show in full on hover. |
 | `incident_events.parquet` (file) | One row per (incident, event), with the incident's columns, display names, event details, `icon` and `event_type_color`. GeoParquet, listed in the **Files** tab. |
 
-Every event type has one colour, the same in every view: the most common type takes the first of 16 set colours (`apply_color_map` with `order: frequency`). Workflows split out of the incident report use the same list and order, so their colours agree.
+Every event type has one colour, the same in every view: the most common type takes the first of 16 set colours (`color_map_by_frequency`, then `apply_color_map`). Workflows split out of the incident report use the same list and order, so their colours agree.
 
 ## Parameters
 
@@ -28,7 +28,8 @@ Every event type has one colour, the same in every view: the most common type ta
 ```
 get_incident_events          incidents in the range → their events by id, display names, details, icons
   → convert_values_to_timezone
-  → apply_color_map (event_type_display → event_type_color, most common first)
+  → color_map_by_frequency (event_type_display → {type: colour}, most common first)
+  → apply_color_map (→ event_type_color)
   → persist_df (incident_events.parquet)
   → split_groups (Incident, or all)
   → draw_incident_storyboard (color_column: event_type_color) → persist_text → plot widget
