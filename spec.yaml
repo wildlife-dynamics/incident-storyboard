@@ -1,5 +1,41 @@
 id: incident_storyboard
 
+metadata:
+  name: Incident Storyboard
+  description: >-
+    Shows each EarthRanger incident as a storyboard: its events in time order, as event-type
+    icons framed in their event-type colour, with the time between events on the arrows. All
+    of an incident's events are included, even those dated outside the time range. Group by
+    incident for one dashboard view per incident. Also saves the incident events as GeoParquet.
+  maintainers:
+    - name: Zakariya Husayn
+      email: zakariya@wildlifedynamics.com
+      role: owner
+    - name: Yun Wu
+      email: yun@wildlifedynamics.com
+      role: reviewer
+  outputs:
+    - name: Incident Storyboards
+      type: plot
+      description: >-
+        One row per incident, newest first. Same-type events close in time share one tile (xN),
+        and events without a location are marked.
+      indicators:
+        - name: Incidents
+    - name: Incident Events
+      type: file
+      description: >-
+        One row per incident event, with the incident's columns, display names, event details,
+        icon and event-type colour, as GeoParquet.
+      indicators:
+        - name: Incidents
+  license: BSD-3-Clause
+  repository: https://github.com/wildlife-dynamics/incident-storyboard
+  documentation: https://github.com/wildlife-dynamics/incident-storyboard#readme
+  readme: README.md
+  keywords: [incidents, events, storyboard, earthranger]
+  thumbnail: resources/thumbnail.png
+
 requirements:
   # get_incident_events and draw_incident_storyboard arrived in 2.34.0;
   # color_map_by_frequency in 2.35.0.

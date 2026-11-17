@@ -2521,7 +2521,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/python-duckdb-1.5.6-py312hbb81ca0_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/python-igraph-1.0.0-py312ha1a9051_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pywin32-312-py312h95189c4_2.conda
-      - conda: https://conda.anaconda.org/conda-forge/win-64/pywinpty-3.1.2-py312h275cf98_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/win-64/pywinpty-3.1.2-py312h275cf98_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pyyaml-6.0.3-py312hcc83f31_3.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pyzmq-27.3.0-py312h343a6d4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/qhull-2020.2-h47c9fd8_6.conda
@@ -32008,9 +32008,9 @@ packages:
   run_exports: {}
   size: 4459739
   timestamp: 1789685718719
-- conda: https://conda.anaconda.org/conda-forge/win-64/pywinpty-3.1.2-py312h275cf98_0.conda
-  sha256: 1614e9ca28e8dc20fee0afd25dc1209126f2551bad2105517bc0449d5feec7cb
-  md5: e22e07680fba48659f16318650dc5718
+- conda: https://conda.anaconda.org/conda-forge/win-64/pywinpty-3.1.2-py312h275cf98_1.conda
+  sha256: 11ee926ca1f0575decec77318e0454835ec3f646f101f1d95025f4e8732e4e3d
+  md5: f91f0e29d78ab5bc08bc38d95a5a9cc7
   depends:
   - python >=3.12,<3.13.0a0
   - python_abi 3.12.* *_cp312
@@ -32019,10 +32019,9 @@ packages:
   - vc14_runtime >=14.29.30139
   - winpty
   license: MIT
-  license_family: MIT
   run_exports: {}
-  size: 771777
-  timestamp: 1793258868453
+  size: 773321
+  timestamp: 1794930264905
 - conda: https://conda.anaconda.org/conda-forge/win-64/pyyaml-6.0.3-py312hcc83f31_3.conda
   sha256: f458bc3c294181a2d80cc96ad8eea5456506e5a297d56f6989275436f005af03
   md5: 10c6274e466aebb1349910f5924e3b56
