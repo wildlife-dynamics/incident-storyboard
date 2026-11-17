@@ -11,6 +11,7 @@ command="pixi run --manifest-path pixi.toml \
 wt-compiler compile --spec spec.yaml \
 --pkg-name-prefix=ecoscope-workflows \
 --results-env-var=ECOSCOPE_WORKFLOWS_RESULTS \
+--variant=gcp \
 --clobber ${flags}"
 
 exec $command
