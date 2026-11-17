@@ -79,7 +79,7 @@ header h1{{margin:0;font-size:20px}} header p{{margin:4px 0 0;color:#666;font-si
 .text{{margin:8px 16px;padding-left:18px;font-size:13px;line-height:1.5;overflow:auto}}
 .empty{{margin:auto;color:#999;font-size:13px}} .stat{{margin:0 16px;font-size:30px;line-height:36px;color:#107284;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 </style></head><body>
-<header><div><h1>{html.escape(meta["title"])}</h1><p>{html.escape(meta["description"])} · {html.escape(meta["time_range"])}</p></div>{selector}</header>
+<header><div><h1>{html.escape(meta["title"])}</h1><p>{html.escape(" · ".join(x for x in (meta["description"], meta["time_range"]) if x))}</p></div>{selector}</header>
 <div class="grid" id="grid"></div>
 <script>
 const VIEWS = {json.dumps(views)};
