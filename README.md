@@ -20,7 +20,6 @@ Every event type has one colour, the same in every view: the most common type ta
 | Data Source | EarthRanger connection |
 | Time Range | Selects incidents by their own date. **All** of an incident's events are included, even those dated outside the range. Times are shown in the range's timezone. |
 | Group by | Optional. **Incident** gives one dashboard view per incident. |
-| Show event icons (advanced) | On by default. Off: each event is a dot of its colour. |
 | Merge window (advanced) | Same-type events this many hours apart or less share one tile. Default 12; 0 never merges. |
 
 ## How it works
@@ -36,7 +35,7 @@ get_incident_events          incidents in the range → their events by id, disp
   → gather_dashboard
 ```
 
-Every task is from `ecoscope-platform` (≥ 2.35.0). Nested incidents are followed up to 5 levels deep (`max_depth: 5`, fixed in `spec.yaml`).
+Every task is from `ecoscope-platform` (≥ 2.35.0). Nested incidents are followed up to 5 levels deep and event icons are always on (`max_depth: 5`, `include_icons: true`, fixed in `spec.yaml`).
 
 ## Local development
 

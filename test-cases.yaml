@@ -16,7 +16,6 @@ wd-all-incidents:
       timezone: {label: "UTC+03:00", tzCode: Africa/Nairobi, name: Africa/Nairobi, utc: "+03:00"}
     groupers:
       groupers: []
-    incident_events: {include_icons: true}
     storyboards: {merge_window_hours: 12}
 
 wd-by-incident:
@@ -35,5 +34,4 @@ wd-by-incident:
       timezone: {label: "UTC+03:00", tzCode: Africa/Nairobi, name: Africa/Nairobi, utc: "+03:00"}
     groupers:
       groupers: [{index_name: incident}]
-    incident_events: {include_icons: true}
     storyboards: {merge_window_hours: 12}

@@ -86,28 +86,6 @@
       "required": [],
       "title": "Group by"
     },
-    "Incidents": {
-      "type": "object",
-      "description": "Download the incidents and all of their events.",
-      "ecoscope:task_group": true,
-      "properties": {
-        "incident_events": {
-          "additionalProperties": false,
-          "properties": {
-            "include_icons": {
-              "default": true,
-              "description": "Embed each event type's EarthRanger icon in an `icon` column (one download per icon).",
-              "ecoscope:advanced": true,
-              "title": "Show event icons",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "type": "object",
-          "title": ""
-        }
-      }
-    },
     "Storyboard": {
       "type": "object",
       "description": "",
@@ -273,7 +251,6 @@
       "er_client",
       "time_range",
       "groupers",
-      "Incidents",
       "Storyboard"
     ],
     "groupers": {
