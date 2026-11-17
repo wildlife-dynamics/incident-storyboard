@@ -1,0 +1,205 @@
+id: incident_storyboard
+
+requirements:
+  # get_incident_events and draw_incident_storyboard arrived in 2.34.0;
+  # apply_color_map's `order` in 2.35.0.
+  - name: ecoscope-platform
+    version: ">=2.35.0,<3.0.0"
+    channel: https://repo.prefix.dev/ecoscope-workflows/
+
+  # ecoscope-platform requires pydeck==0.9.2, which is only on conda-forge;
+  # pinned explicitly so strict channel priority can resolve it.
+  - name: pydeck
+    version: 0.9.2
+    channel: conda-forge
+
+rjsf-overrides:
+  properties:
+    time_range.description: >-
+      Choose the period. Incidents created in this period are included, with all
+      of their events.
+
+    groupers.properties.groupers.description: >-
+      Choose Incident for one view per incident (optional). Leave empty for one
+      view of all incidents.
+    groupers.properties.groupers.items.anyOf:
+      - "$ref": "#/$defs/ValueGrouper"
+
+    # icons are off by default in the task; the storyboard is built around them
+    Incidents.properties.incident_events.properties.include_icons.default: true
+    Incidents.properties.incident_events.properties.include_icons.title: Show event icons
+    Storyboard.properties.storyboards.properties.merge_window_hours.title: Merge window (hours)
+
+  $defs:
+    ValueGrouper.properties.index_name.oneOf:
+      - const: incident
+        title: Incident
+
+  uiSchema:
+    groupers.groupers.items.anyOf:
+      - ui:options:
+          label: false
+
+task-instance-defaults:
+  skipif:
+    conditions:
+      - any_is_empty_df
+      - any_dependency_skipped
+
+workflow:
+  - name: Workflow Details
+    id: workflow_details
+    task: set_workflow_details
+
+  - name: Data Source
+    id: er_client
+    task: set_er_connection
+
+  - name: Time Range
+    id: time_range
+    task: set_time_range
+    partial:
+      time_format: "%d %b %Y %H:%M:%S %Z"
+
+  - id: get_timezone
+    task: get_timezone_from_time_range
+    partial:
+      time_range: ${{ workflow.time_range.return }}
+
+  - name: Group by
+    id: groupers
+    task: set_groupers
+
+  - title: Incidents
+    type: task-group
+    description: Download the incidents and all of their events.
+    tasks:
+      - id: incident_events
+        task: get_incident_events
+        partial:
+          client: ${{ workflow.er_client.return }}
+          time_range: ${{ workflow.time_range.return }}
+          # Not in the form: no site has incidents inside incidents yet. Nested
+          # incidents are still followed up to 5 levels deep.
+          max_depth: 5
+
+      - id: events_local_time
+        task: convert_values_to_timezone
+        partial:
+          df: ${{ workflow.incident_events.return }}
+          timezone: ${{ workflow.get_timezone.return }}
+          columns:
+            - time
+
+      # Colours are assigned once, before splitting, so an event type keeps its
+      # colour in every view. The same list and order are used by every workflow
+      # split out of the incident report, so they agree side by side.
+      - id: incident_data
+        task: apply_color_map
+        partial:
+          df: ${{ workflow.events_local_time.return }}
+          input_column_name: event_type_display
+          output_column_name: event_type_color
+          order: frequency
+          colormap:
+            - "#2a78d6"
+            - "#eb6834"
+            - "#1baf7a"
+            - "#eda100"
+            - "#e87ba4"
+            - "#008300"
+            - "#6250d6"
+            - "#e34948"
+            - "#0f9fb5"
+            - "#8c5a3c"
+            - "#a6b51b"
+            - "#b14fc5"
+            - "#1f4e8c"
+            - "#7cc4f0"
+            - "#9b2f5f"
+            - "#d4a3e8"
+
+      - id: persist_incident_events
+        task: persist_df
+        partial:
+          df: ${{ workflow.incident_data.return }}
+          filetype: geoparquet
+          filename: incident_events
+          root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
+
+      - id: incidents_split
+        task: split_groups
+        partial:
+          df: ${{ workflow.incident_data.return }}
+          groupers: ${{ workflow.groupers.return }}
+
+  - title: Storyboard
+    type: task-group
+    description: ""
+    tasks:
+      - id: storyboards
+        task: draw_incident_storyboard
+        # only merge_window_hours is left in the form; the columns are fixed by
+        # get_incident_events and the colours by apply_color_map above
+        partial:
+          group_column: incident
+          group_time_column: incident_time
+          time_column: time
+          type_column: event_type_display
+          id_column: serial_number
+          icon_column: icon
+          color_column: event_type_color
+          palette: null
+        mapvalues:
+          argnames: dataframe
+          argvalues: ${{ workflow.incidents_split.return }}
+
+      - id: storyboards_html
+        task: persist_text
+        partial:
+          root_path: ${{ env.ECOSCOPE_WORKFLOWS_RESULTS }}
+          filename_suffix: incident_storyboards
+        mapvalues:
+          argnames: text
+          argvalues: ${{ workflow.storyboards.return }}
+
+      - id: storyboards_widget
+        task: create_plot_widget_single_view
+        skipif:
+          conditions:
+            - never
+        partial:
+          title: Incident storyboards
+        map:
+          argnames: [view, data]
+          argvalues: ${{ workflow.storyboards_html.return }}
+
+      - id: storyboards_merged
+        task: merge_widget_views
+        skipif:
+          conditions:
+            - never
+        partial:
+          widgets: ${{ workflow.storyboards_widget.return }}
+
+  - id: events_file
+    task: create_files_single_view
+    # no incidents in the period: the events file is skipped, and this step's
+    # fallback gives an empty file list, so the dashboard still shows
+    skipif:
+      conditions:
+        - never
+    partial:
+      files: ${{ workflow.persist_incident_events.return }}
+
+  - name: Dashboard
+    id: dashboard
+    task: gather_dashboard
+    partial:
+      details: ${{ workflow.workflow_details.return }}
+      widgets:
+        - ${{ workflow.storyboards_merged.return }}
+      groupers: ${{ workflow.groupers.return }}
+      time_range: ${{ workflow.time_range.return }}
+      files:
+        - ${{ workflow.events_file.return }}

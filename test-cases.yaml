@@ -1,0 +1,39 @@
+wd-all-incidents:
+  name: Wildlife Dynamics, all incidents
+  description: >-
+    Four incidents (8 events): mixed event types, one incident with no located
+    events, one event in review.
+  params:
+    workflow_details:
+      name: Incident Storyboard
+      description: ""
+    er_client:
+      data_source:
+        name: wd
+    time_range:
+      since: "2026-01-01T00:00:00.000Z"
+      until: "2026-10-14T00:00:00.000Z"
+      timezone: {label: "UTC+03:00", tzCode: Africa/Nairobi, name: Africa/Nairobi, utc: "+03:00"}
+    groupers:
+      groupers: []
+    incident_events: {include_icons: true}
+    storyboards: {merge_window_hours: 12}
+
+wd-by-incident:
+  name: Wildlife Dynamics, one view per incident
+  description: Same data grouped by incident; colours must match across views.
+  params:
+    workflow_details:
+      name: Incident Storyboard
+      description: ""
+    er_client:
+      data_source:
+        name: wd
+    time_range:
+      since: "2026-01-01T00:00:00.000Z"
+      until: "2026-10-14T00:00:00.000Z"
+      timezone: {label: "UTC+03:00", tzCode: Africa/Nairobi, name: Africa/Nairobi, utc: "+03:00"}
+    groupers:
+      groupers: [{index_name: incident}]
+    incident_events: {include_icons: true}
+    storyboards: {merge_window_hours: 12}
