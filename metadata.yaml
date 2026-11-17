@@ -1,0 +1,13 @@
+name: Incident Storyboard
+author:
+  name: Zakariya
+  organization: Wildlife Dynamics
+  email: zakariya@wildlifedynamics.com
+description: >
+  EarthRanger incidents (collections of events) as storyboards: each incident's
+  events in time order, as event-type icons framed in their event-type colour,
+  with the time between events. Group by incident for one dashboard view per
+  incident. Also saves the incident events as GeoParquet.
+theory: ""
+output_comment: ""
+citation: ""
