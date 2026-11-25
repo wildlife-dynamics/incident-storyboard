@@ -37,10 +37,10 @@ metadata:
   thumbnail: resources/thumbnail.png
 
 requirements:
-  # get_incident_events and draw_incident_storyboard arrived in 2.34.0;
-  # color_map_by_frequency in 2.35.0.
+  # 2.39.4: the storyboard shows tile times in the time range's timezone, not UTC
+  # (2.39.3 added its PNG download button).
   - name: ecoscope-platform
-    version: ">=2.35.0,<3.0.0"
+    version: ">=2.39.4,<3.0.0"
     channel: https://repo.prefix.dev/ecoscope-workflows/
 
   # ecoscope-platform requires pydeck==0.9.2, which is only on conda-forge;
