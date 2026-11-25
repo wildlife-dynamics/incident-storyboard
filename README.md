@@ -8,7 +8,7 @@ It is one output of the incident report, split out on its own so it can be combi
 
 | Output | Shows |
 |---|---|
-| Incident storyboards (widget) | One row per incident, newest first. Same-type events close in time share one tile (×N). Unlocated events are marked "no location". Long type names show in full on hover. |
+| Incident storyboards (widget) | One row per incident, newest first. Same-type events close in time share one tile (×N). Unlocated events are marked "no location". Long type names show in full on hover. The camera button (top right, on hover) saves the whole storyboard as a PNG. |
 | `incident_events.parquet` (file) | One row per (incident, event), with the incident's columns, display names, event details, `icon` and `event_type_color`. GeoParquet, listed in the **Files** tab. |
 
 Every event type has one colour, the same in every view: the most common type takes the first of 16 set colours (`color_map_by_frequency`, then `apply_color_map`). Workflows split out of the incident report use the same list and order, so their colours agree.
@@ -35,7 +35,7 @@ get_incident_events          incidents in the range → their events by id, disp
   → gather_dashboard
 ```
 
-Every task is from `ecoscope-platform` (≥ 2.35.0). Nested incidents are followed up to 5 levels deep and event icons are always on (`max_depth: 5`, `include_icons: true`, fixed in `spec.yaml`).
+Every task is from `ecoscope-platform` (≥ 2.39.4). Nested incidents are followed up to 5 levels deep and event icons are always on (`max_depth: 5`, `include_icons: true`, fixed in `spec.yaml`).
 
 ## Local development
 
